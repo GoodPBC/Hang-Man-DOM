@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Psuedo HW attempt 1</title>
+</head>
+<body>
+
+<div id="emptyDiv"> 
+	<h2>Two Men Enter.</h2>
+		<h3>One man leave.</h3>
+		<p>Press any key to enter the Thunderdome.</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+	<script>
+
+	//=====================GLOBAL VARIABLES==========================
+	//words to be chosen by the computer  for the game
+	var wordList = ["JOE", "DENNS MACALISTAIR", "BJARNE STROUSTRUP", "LINUS TORVALDS"]
+
+
+//sets sets a variable that will be used
+	var userGuess;
+
+
+// this is a variable that will hold a random word for gameplay
+	var wordPicked;
+
+
+// this variable will hold the value of the game word broken into an array of individual letters
+	var wordSplit;
+	var placeholder= [];
+	var guessTracker;
+	var lives;
+	
+
+function initGame() {
+	userGuess = [];
+	lives = 11;
+
+//this calls the variable worldList and pulls a random element (by its index) from the array and assigns it to a variable called wordPicked, then the letters of wordPicked are  "split" into individual strings in a a new array called wordSplit 
+	var wordPicked = wordList[Math.floor(Math.random() * wordList.length)];	
+	console.log(wordPicked);
+
+	wordSplit = wordPicked.split('');
+	console.log(wordSplit);
+
+
+
+	for (var i = 0; i < wordSplit.length; i++) {
+		if(wordSplit[i] == ' '){
+            placeholder[i] = '&nbsp;  &nbsp; &nbsp;' ; // this value renders in the DOM as a space between characters.
+
+        }else{
+            placeholder[i] = '_';
+        }		
+	}
+}
+
+
+function updateGame() {
+	userGuess = String.fromCharCode(event.keyCode).toUpperCase();
+	var guessTracker = false;
+	for (var i = 0; i < wordSplit.length; i++) {
+		if (wordSplit[i] == userGuess) {
+		 	placeholder[i] = userGuess;
+		 	guessTracker = true;
+		 	
+		 }	
+	}
+	if(!guessTracker){
+		lives--;
+	}
+
+
+		console.log(lives);
+		console.log(userGuess);
+		console.log(placeholder);
+
+		document.getElementById('emptyDiv').innerHTML = placeholder.join("&nbsp;");
+
+}
+
+
+
+
+
+
+// Event handler to move from SPLASH, thru initGame, and into GAME PLAY
+	document.onkeyup = function (event) {
+		var emptyDiv = document.getElementById("emptyDiv");
+		emptyDiv.innerHTML = "Lets ROCK and ROLL BITCHES!!!!";
+
+		initGame();
+		updateGame();
+
+
+		//Setup the new event handler  
+        document.onkeyup = function(event) {
+        	updateGame();
+        }
+			
+
+	}
+
+
+		// var targetDiv = document.getElementById("emptyDiv");
+		// targetDiv.innerHTML = "SPLASH SCREEN";
+		
+	</script> 
+
+</body>
+</html>
